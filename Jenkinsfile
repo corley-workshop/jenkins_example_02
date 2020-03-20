@@ -23,13 +23,13 @@ pipeline {
         }
 
         stage("Test and publish result") {
-            steps {
-                agent {
-                    docker {
-                        image 'node:lts-alpine'
-                    }
+            agent {
+                docker {
+                    image 'node:lts-alpine'
                 }
-                
+            }
+            
+            steps {
                 script {
                     sh 'CI=true npm test -- --coverage'
                     step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/cobertura-coverage.xml'])
@@ -38,13 +38,13 @@ pipeline {
         }
 
         stage("Build webapp") {
-            steps {
-                agent {
-                    docker {
-                        image 'node:lts-alpine'
-                    }
+            agent {
+                docker {
+                    image 'node:lts-alpine'
                 }
-                
+            }
+            
+            steps {               
                 script {
                     sh 'npm run build'
                 }
