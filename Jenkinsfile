@@ -39,10 +39,8 @@ pipeline {
 
         stage("Publish on S3") {
             steps {
-                withAWS(region: AWS_REGION, credentials: AWS_CREDENTIAL) {
-                    s3Delete(bucket: S3_BUCKET, path:'**/*')
-                    s3Upload(bucket: S3_BUCKET, workingDir:'build', includePathPattern:'**/*');
-                }
+                sh "aws s3 rm s3://$S3_BUCKET/ --recursive"
+                sh "aws s3 sync build/ s3://$S3_BUCKET/ --recursive"
             }
         }
 
