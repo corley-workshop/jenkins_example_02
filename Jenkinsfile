@@ -6,9 +6,9 @@ pipeline {
     }
 
     environment {
-        AWS_CREDENTIAL = 'awscredentials'
+        AWS_CREDENTIAL = 'my_aws_credentials'
         AWS_REGION = 'eu-west-1'
-        S3_BUCKET = 'abc1231232131'
+        S3_BUCKET = 'corley-workshop-jenkins'
     }
 
     stages {
