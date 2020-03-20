@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts-alpine'
-        }
-    }
+    agent any
 
     environment {
         AWS_CREDENTIAL = 'my_aws_credentials'
@@ -13,6 +9,12 @@ pipeline {
 
     stages {
         stage("Install dependencies") {
+            agent {
+                docker {
+                    image 'node:lts-alpine'
+                }
+            }
+            
             steps {
                 script {
                     sh 'npm install'
@@ -22,6 +24,12 @@ pipeline {
 
         stage("Test and publish result") {
             steps {
+                agent {
+                    docker {
+                        image 'node:lts-alpine'
+                    }
+                }
+                
                 script {
                     sh 'CI=true npm test -- --coverage'
                     step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/cobertura-coverage.xml'])
@@ -31,6 +39,12 @@ pipeline {
 
         stage("Build webapp") {
             steps {
+                agent {
+                    docker {
+                        image 'node:lts-alpine'
+                    }
+                }
+                
                 script {
                     sh 'npm run build'
                 }
@@ -39,8 +53,8 @@ pipeline {
 
         stage("Publish on S3") {
             steps {
-                sh "/usr/bin/aws s3 rm s3://$S3_BUCKET/ --recursive"
-                sh "/usr/bin/aws s3 sync build/ s3://$S3_BUCKET/ --recursive"
+                sh "aws s3 rm s3://$S3_BUCKET/ --recursive"
+                sh "aws s3 sync build/ s3://$S3_BUCKET/ --recursive"
             }
         }
 
