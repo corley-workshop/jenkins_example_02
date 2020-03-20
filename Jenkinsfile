@@ -57,8 +57,8 @@ pipeline {
             steps {
                 sh "cat /etc/os-release"
                 sh "ls /usr/bin"
-                sh "sudo aws s3 rm s3://$S3_BUCKET/ --recursive"
-                sh "sudo aws s3 sync build/ s3://$S3_BUCKET/ --recursive"
+                sh "aws s3 rm s3://$S3_BUCKET/ --recursive"
+                sh "aws s3 sync build/ s3://$S3_BUCKET/ --recursive"
             }
         }
 
