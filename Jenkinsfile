@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'agente1'
+    }
 
     environment {
         AWS_CREDENTIAL = 'my_aws_credentials'
